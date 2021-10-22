@@ -48,6 +48,17 @@ app.put('/api/upload/:id', function (req, res) {
         })
     }
 
+    let contentType;
+    if (extension === 'jpg' || 'png' || 'jpeg') {
+        contentType = "image";
+    }
+
+    if (extension === 'mp4') {
+        contentType = "video";
+    }
+
+    console.log(contentType)
+
     // Change name's file
     let nombreArchivo = `${id}${new Date().getMilliseconds()}.${extension}`
 
@@ -59,11 +70,13 @@ app.put('/api/upload/:id', function (req, res) {
             console.log('linea 91', err)
             return res.status(500).json({ err: err });
         }
-
-
         // Guardar en cloudinary
         cloudinary.v2.uploader.upload(`uploads/${nombreArchivo}`,
+            { resource_type: contentType },
             function (error, result) {
+                if (error) {
+                    return res.json({ 'err': error })
+                }
 
                 const imageUrl = result.url
                 // // // Actualizar, imagen a un contenido
@@ -78,11 +91,6 @@ app.put('/api/upload/:id', function (req, res) {
                 err
             });
         }
-
-
-
-
-
 
     });
 });
