@@ -7,9 +7,9 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const cloudinary = require('cloudinary');
 cloudinary.config({
-    cloud_name: 'dytq9qctp',
-    api_key: '726777914878656',
-    api_secret: 'QbNxWNuAi4pUURBrLEY9K2urs70'
+    cloud_name: 'doo99etys',
+    api_key: '371278147974621',
+    api_secret: 'w9NcC7tRiWcxV2-5TwoiypI1TBo'
 })
 const s3 = new AWS.S3({
     accessKeyId: "AKIAQ3EL6HBEEW3IZSW3 ",
@@ -37,7 +37,7 @@ app.put('/api/upload/:id', function (req, res) {
     let nombreArchivoCortado = archivo.name.split('.');
     let extension = nombreArchivoCortado[nombreArchivoCortado.length - 1]
     // Extensiones válidas
-    let extensionesValidas = ['png', 'jpg', 'gif', 'jpeg', 'mp4']
+    let extensionesValidas = ['png', 'jpg', 'gif', 'jpeg', 'mp4', 'mov', '3gpp']
 
     if (extensionesValidas.indexOf(extension) < 0) {
         return res.status(400).json({
@@ -53,7 +53,7 @@ app.put('/api/upload/:id', function (req, res) {
         contentType = "image";
     }
 
-    if (extension === 'mp4') {
+    if (extension === 'mp4' || 'mov' || '3gpp') {
         contentType = "video";
     }
 
@@ -140,13 +140,16 @@ function imagenContenido(id, res, nombreArchivo, extension) {
 
         contenido.imagenUrl = nombreArchivo;
 
+
         if (extension === 'jpg' || 'png' || 'jpeg') {
             contenido.typo = "imagen";
-        }
 
-        if (extension === 'mp4') {
+        }
+    
+        if (extension === 'mp4' || 'mov' || '3gpp') {
             contenido.typo = "video";
         }
+    
 
         contenido.save((err, contenidoUpdated) => {
             if (err) {
