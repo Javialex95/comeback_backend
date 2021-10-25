@@ -41,7 +41,7 @@ app.put('/api/upload/:id', function (req, res) {
     let extensionesImg = ['png', 'jpg', 'gif', 'jpeg']
 
     // console.log(extension)
-    if (extensionesValidas.indexOf(extension) < 0) {
+    if (extensionesValidas.indexOf(extension.toLocaleLowerCase()) < 0) {
         return res.status(400).json({
             ok: false,
             err: {
@@ -51,7 +51,7 @@ app.put('/api/upload/:id', function (req, res) {
     }
 
     let contentType;
-    if (extensionesImg.indexOf(extension) < 0) {
+    if (extensionesImg.indexOf(extension.toLocaleLowerCase()) < 0) {
         contentType = "video";
     }else{
         contentType = "image"
@@ -143,7 +143,7 @@ function imagenContenido(id, res, nombreArchivo, extension) {
 
 
         let extensionesImg = ['png', 'jpg', 'gif', 'jpeg']
-        if (extensionesImg.indexOf(extension) < 0){
+        if (extensionesImg.indexOf(extension.toLocaleLowerCase()) < 0){
             contenido.typo = "video";
         }else{
             contenido.typo = "imagen";
