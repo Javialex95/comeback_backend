@@ -142,14 +142,13 @@ function imagenContenido(id, res, nombreArchivo, extension) {
         contenido.imagenUrl = nombreArchivo;
 
 
-        if (extension === 'jpg' || 'png' || 'jpeg') {
-            contenido.typo = "imagen";
-
-        }
-    
-        if (extension === 'mp4' || 'mov' || '3gpp') {
+        let extensionesImg = ['png', 'jpg', 'gif', 'jpeg']
+        if (extensionesImg.indexOf(extension) < 0){
             contenido.typo = "video";
+        }else{
+            contenido.typo = "imagen";
         }
+
     
 
         contenido.save((err, contenidoUpdated) => {
