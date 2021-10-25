@@ -38,7 +38,9 @@ app.put('/api/upload/:id', function (req, res) {
     let extension = nombreArchivoCortado[nombreArchivoCortado.length - 1]
     // Extensiones válidas
     let extensionesValidas = ['png', 'jpg', 'gif', 'jpeg', 'mp4', 'mov', '3gpp']
+    let extensionesImg = ['png', 'jpg', 'gif', 'jpeg']
 
+    // console.log(extension)
     if (extensionesValidas.indexOf(extension) < 0) {
         return res.status(400).json({
             ok: false,
@@ -49,13 +51,12 @@ app.put('/api/upload/:id', function (req, res) {
     }
 
     let contentType;
-    if (extension === 'jpg' || 'png' || 'jpeg') {
-        contentType = "image";
+    if (extensionesImg.indexOf(extension) < 0) {
+        contentType = "video";
+    }else{
+        contentType = "image"
     }
 
-    if (extension === 'mp4' || 'mov' || '3gpp') {
-        contentType = "video";
-    }
 
     console.log(contentType)
 
@@ -65,34 +66,34 @@ app.put('/api/upload/:id', function (req, res) {
     let uploadPath = path.join(__dirname, `../uploads/${nombreArchivo}`);
 
     // Use the mv() method to place the file somewhere on your server
-    archivo.mv(uploadPath, function (err) {
-        if (err) {
-            console.log('linea 91', err)
-            return res.status(500).json({ err: err });
-        }
-        // Guardar en cloudinary
-        cloudinary.v2.uploader.upload(`uploads/${nombreArchivo}`,
-            { resource_type: contentType },
-            function (error, result) {
-                if (error) {
-                    return res.json({ 'err': error })
-                }
+    // archivo.mv(uploadPath, function (err) {
+    //     if (err) {
+    //         console.log('linea 91', err)
+    //         return res.status(500).json({ err: err });
+    //     }
+    //     // Guardar en cloudinary
+    //     cloudinary.v2.uploader.upload(`uploads/${nombreArchivo}`,
+    //         { resource_type: contentType },
+    //         function (error, result) {
+    //             if (error) {
+    //                 return res.json({ 'err': error, 'Errortype': 'Error cloudinary' })
+    //             }
 
-                const imageUrl = result.url
-                // // // Actualizar, imagen a un contenido
-                imagenContenido(id, res, imageUrl, extension);
-            }
-        )
+    //             const imageUrl = result.url
+    //             // // // Actualizar, imagen a un contenido
+    //             imagenContenido(id, res, imageUrl, extension);
+    //         }
+    //     )
 
 
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err
-            });
-        }
+    //     if (err) {
+    //         return res.status(500).json({
+    //             ok: false,
+    //             err
+    //         });
+    //     }
 
-    });
+    // });
 });
 
 

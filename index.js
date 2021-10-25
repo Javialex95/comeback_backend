@@ -29,8 +29,6 @@ app.get('/', (req, res) =>{
 app.use('/api/contenidos', require('./routes/contenidos'));
 app.use(require('./routes/upload'));
 app.use(require('./routes/imagenes'));
-app.use(require('./routes/upload_prueba'));
-
 
 app.use('/', router)
 
