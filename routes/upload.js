@@ -66,34 +66,34 @@ app.put('/api/upload/:id', function (req, res) {
     let uploadPath = path.join(__dirname, `../uploads/${nombreArchivo}`);
 
     // Use the mv() method to place the file somewhere on your server
-    // archivo.mv(uploadPath, function (err) {
-    //     if (err) {
-    //         console.log('linea 91', err)
-    //         return res.status(500).json({ err: err });
-    //     }
-    //     // Guardar en cloudinary
-    //     cloudinary.v2.uploader.upload(`uploads/${nombreArchivo}`,
-    //         { resource_type: contentType },
-    //         function (error, result) {
-    //             if (error) {
-    //                 return res.json({ 'err': error, 'Errortype': 'Error cloudinary' })
-    //             }
+    archivo.mv(uploadPath, function (err) {
+        if (err) {
+            console.log('linea 91', err)
+            return res.status(500).json({ err: err });
+        }
+        // Guardar en cloudinary
+        cloudinary.v2.uploader.upload(`uploads/${nombreArchivo}`,
+            { resource_type: contentType },
+            function (error, result) {
+                if (error) {
+                    return res.json({ 'err': error, 'Errortype': 'Error cloudinary' })
+                }
 
-    //             const imageUrl = result.url
-    //             // // // Actualizar, imagen a un contenido
-    //             imagenContenido(id, res, imageUrl, extension);
-    //         }
-    //     )
+                const imageUrl = result.url
+                // // // Actualizar, imagen a un contenido
+                imagenContenido(id, res, imageUrl, extension);
+            }
+        )
 
 
-    //     if (err) {
-    //         return res.status(500).json({
-    //             ok: false,
-    //             err
-    //         });
-    //     }
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
 
-    // });
+    });
 });
 
 
